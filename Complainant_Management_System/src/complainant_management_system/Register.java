@@ -281,8 +281,12 @@ public class Register extends javax.swing.JFrame {
 
     private void AddNewUser(String username, String email, String pass, String rank) {
         JOptionPane.showMessageDialog(this, "Registration Successful");
+
+        Login newLogin = new Login();
+        newLogin.setVisible(true);
+        this.setVisible(false);
         
-        if(rank.equals("Student")){
+       /**  if(rank.equals("Student")){
             HomePage newDashboard = new HomePage();
             newDashboard.setVisible(true);
             this.setVisible(false);
@@ -299,7 +303,7 @@ public class Register extends javax.swing.JFrame {
             
         }
         this.dispose();
-          
+          */
           
     
     }
