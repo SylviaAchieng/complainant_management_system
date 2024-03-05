@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
  * @author Babygirl
  */
 public class Home extends javax.swing.JFrame {
+    
+    
 
     
     public Home() {
@@ -136,8 +138,8 @@ public class Home extends javax.swing.JFrame {
 
     private void HomeLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeLoginActionPerformed
         // TODO add your handling code here:
-        Login newLogin = new Login();
-        newLogin.setVisible(true);
+       // Login newLogin = new Login();
+       // newLogin.setVisible(true);
         
     }//GEN-LAST:event_HomeLoginActionPerformed
 
