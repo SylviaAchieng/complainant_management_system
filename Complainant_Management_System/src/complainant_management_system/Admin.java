@@ -10,7 +10,7 @@ package complainant_management_system;
  */
 public class Admin extends javax.swing.JFrame {
     JpanelLoader jPload = new JpanelLoader();
-    JpanelLoader uPload = new JpanelLoader();
+    
 
     /**
      * Creates new form Admin
