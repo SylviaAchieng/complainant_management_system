@@ -39,7 +39,7 @@ public class Users extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Username", "Complaint Category", "Complaint Description", "Complaint Status"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
