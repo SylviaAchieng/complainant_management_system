@@ -297,7 +297,8 @@ public class ComplainantCartegory extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Data Saved");
            } catch (HeadlessException | SQLException e) {
                System.out.println(e);
-        }                                        
+        }  
+        tbLoad();
                                         
     }//GEN-LAST:event_jButton5ActionPerformed
 

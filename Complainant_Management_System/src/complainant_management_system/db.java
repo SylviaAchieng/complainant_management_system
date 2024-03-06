@@ -12,8 +12,8 @@ public class db {
         Connection con = null;
         
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
             return con;
         }
         catch (ClassNotFoundException | SQLException e){
@@ -22,5 +22,6 @@ public class db {
             
         
     }
+
     
 }
