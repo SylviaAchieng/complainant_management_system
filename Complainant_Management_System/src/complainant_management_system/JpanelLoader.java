@@ -1,6 +1,8 @@
 
 package complainant_management_system;
 
+import javax.swing.GroupLayout;
+
 import javax.swing.JPanel;
 
 /**
@@ -12,7 +14,8 @@ public class JpanelLoader {
    public  void jPanelLoader(JPanel Main,JPanel setPanel){
       Main.removeAll();
      
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(Main);
+        //javax.swing.GroupLayout layout = new javax.swing.GroupLayout(Main);
+        GroupLayout layout = new GroupLayout(Main);
         Main.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -22,6 +25,16 @@ public class JpanelLoader {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(setPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
         );
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(setPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(setPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+        );
+        Main.revalidate();
+        Main.repaint();
         System.gc();
     
     }
