@@ -223,10 +223,10 @@ public class HomePage extends javax.swing.JFrame {
         jPload.jPanelLoader(home_load, prog);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        //ComplainantHistory histo = new ComplainantHistory();
-        //jPload.jPanelLoader(home_load, histo);
+        CompHistory histo = new CompHistory();
+        jPload.jPanelLoader(home_load, histo);
     }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
