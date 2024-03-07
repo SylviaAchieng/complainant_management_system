@@ -14,6 +14,7 @@ public class db {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");//for Xammp users
             return con;
         }
         catch (ClassNotFoundException | SQLException e){
