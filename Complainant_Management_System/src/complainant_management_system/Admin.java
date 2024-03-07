@@ -162,16 +162,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // calling dashboard
-        //Content content = new Content();
-        //jPload.jPanelLoader(adminframe, content);
+        Contennt content = new Contennt();
+        jPload.jPanelLoader(adminframe, content);
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //calling users
-        //Users users = new Users();
-        //jPload.jPanelLoader(adminframe, users);
         User u = new User();
         jPload.jPanelLoader(adminframe, u);
     }//GEN-LAST:event_jButton4ActionPerformed
