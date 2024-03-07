@@ -157,6 +157,7 @@ public class Admin extends javax.swing.JFrame {
         ComplainantCartegory category = new ComplainantCartegory();
         jPload.jPanelLoader(adminframe, category);
         
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -171,6 +172,8 @@ public class Admin extends javax.swing.JFrame {
         //calling users
         //Users users = new Users();
         //jPload.jPanelLoader(adminframe, users);
+        User u = new User();
+        jPload.jPanelLoader(adminframe, u);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

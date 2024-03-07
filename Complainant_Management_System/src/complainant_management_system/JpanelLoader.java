@@ -42,5 +42,7 @@ public class JpanelLoader {
     void jPanelLoader(JPanel home1, Login log) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+ 
    
 }
