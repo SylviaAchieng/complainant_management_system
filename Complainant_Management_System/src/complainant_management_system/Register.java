@@ -285,26 +285,6 @@ public class Register extends javax.swing.JFrame {
         Login newLogin = new Login();
         newLogin.setVisible(true);
         this.setVisible(false);
-        
-       /**  if(rank.equals("Student")){
-            HomePage newDashboard = new HomePage();
-            newDashboard.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Staff")){
-            HomePage newStaff = new HomePage();
-            newStaff.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Non-Staff")){
-            HomePage newNonStaff = new HomePage();
-            newNonStaff.setVisible(true);
-            this.setVisible(false); 
-            
-        }
-        this.dispose();
-          */
-          
     
     }
 }
