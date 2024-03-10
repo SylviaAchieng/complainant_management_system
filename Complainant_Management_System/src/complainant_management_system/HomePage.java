@@ -4,14 +4,9 @@ package complainant_management_system;
 
 import javax.swing.JFrame;
 
-
- 
-
-
 public class HomePage extends javax.swing.JFrame {
     JpanelLoader jPload = new JpanelLoader();
 
-    
 
     public HomePage() {
         initComponents();
