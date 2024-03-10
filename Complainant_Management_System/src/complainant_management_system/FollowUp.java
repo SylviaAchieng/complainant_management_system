@@ -4,6 +4,12 @@
  */
 package complainant_management_system;
 
+import complainant_management_system.db;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author collins
@@ -15,7 +21,23 @@ public class FollowUp extends javax.swing.JPanel {
      */
     public FollowUp() {
         initComponents();
+        count();
     }
+    
+    public void count(){
+        try {
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT COUNT(Id) AS count FROM register_complaint");
+    if (rs.next()) {
+        int count = rs.getInt("count");
+        String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+        msg.setText(formattedCount);
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, e);
+}     
+        
+ }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +54,7 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        msg = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -90,24 +112,24 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(24, 1, 1, 1, new java.awt.Color(0, 102, 102)));
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel1.setText("000");
+        msg.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        msg.setText("000");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(msg)
+                .addGap(50, 50, 50))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(msg)
+                .addGap(22, 22, 22))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -284,7 +306,6 @@ public class FollowUp extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -303,5 +324,6 @@ public class FollowUp extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel msg;
     // End of variables declaration//GEN-END:variables
 }
