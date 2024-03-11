@@ -89,6 +89,11 @@ public class RegTable extends javax.swing.JPanel {
                 "ID", "Department"
             }
         ));
+        depatTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                depatTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(depatTable);
 
         jPanel7.setBackground(new java.awt.Color(0, 102, 102));
@@ -148,6 +153,11 @@ public class RegTable extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         depatSearch.setBackground(new java.awt.Color(0, 102, 102));
         depatSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -262,25 +272,52 @@ public class RegTable extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void depatSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depatSearchActionPerformed
-       // Search:
-         String search = depatSearch.getText();
-        try{
-            Statement s = db.mycon().createStatement();
-            
-            ResultSet rs = s.executeQuery("SELECT * FROM depart WHERE Id ='"+search+"'");
-            
-            if (rs.next()){
-                depatm.setText(rs.getString("department"));        
-            }
-        } catch (SQLException e){
-            System.out.println(e);
 
-        }
+// Search:
+String search = depId.getText();
+try {
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT * FROM depart WHERE Id ='" + search + "'");
+    
+    if (rs.next()) {
+        depatm.setText(rs.getString("department")); 
+    } else {
+        // Handle case when no matching record is found
+        depatm.setText("No department found for ID: " + search);
+    }
+} catch (SQLException e) {
+    e.printStackTrace(); // Printing stack trace for debugging purposes
+}
+
         tbLoad();
         
                                           
        
     }//GEN-LAST:event_depatSearchActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Delete 
+         String id = depId.getText();
+        try{
+           Statement s = db.mycon().createStatement();
+           s.executeUpdate("DELETE FROM add_complaints WHERE Id='"+id+"'");
+            JOptionPane.showMessageDialog(null, "Data Deleted");
+           
+        }catch(SQLException e){
+            System.out.println(e);
+           
+}
+        tbLoad();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void depatTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_depatTableMouseClicked
+        int r = depatTable.getSelectedRow();
+        String id = depatTable.getValueAt(r, 0).toString();
+        String dep = depatTable.getValueAt(r, 1).toString();
+        
+        depId.setText(id);
+        depatm.setText(dep);
+    }//GEN-LAST:event_depatTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

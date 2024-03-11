@@ -230,6 +230,11 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                 "Id", "Category", "Type"
             }
         ));
+        complaintsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                complaintsTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(complaintsTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -298,27 +303,32 @@ public class ComplainantCartegory extends javax.swing.JPanel {
 
     private void compSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compSearchActionPerformed
        // Search:
-         String search = compSearch.getText();
-        try{
-            Statement s = db.mycon().createStatement();
-            
-            ResultSet rs = s.executeQuery("SELECT * FROM add_complaints WHERE Id ='"+search+"'");
-            
-            if (rs.next()){
-                categ.setText(rs.getString("category"));
-                typ.setText(rs.getString("type"));        
-            }
-        } catch (SQLException e){
-            System.out.println(e);
+         
+// Search:
+String search = comId.getText();
+try {
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT * FROM add_complaints WHERE Id ='" + search + "'");
+    
+    if (rs.next()) {
+        categ.setText(rs.getString("category")); 
+        typ.setText(rs.getString("type"));
+    } else {
+        // Handle case when no matching record is found
+        categ.setText("No category found for ID: " + search);
+        typ.setText("No Type found for ID: " + search);
+    }
+} catch (SQLException e) {
+    e.printStackTrace(); // Printing stack trace for debugging purposes
+}
 
-        }
         tbLoad();
         
     }//GEN-LAST:event_compSearchActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
           // Delete 
-         String id = compSearch.getText();
+         String id = comId.getText();
         try{
            Statement s = db.mycon().createStatement();
            s.executeUpdate("DELETE FROM add_complaints WHERE Id='"+id+"'");
@@ -328,7 +338,19 @@ public class ComplainantCartegory extends javax.swing.JPanel {
             System.out.println(e);
            
 }
+        tbLoad();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void complaintsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complaintsTableMouseClicked
+        int r = complaintsTable.getSelectedRow();
+        String id = complaintsTable.getValueAt(r, 0).toString();
+        String cat= complaintsTable.getValueAt(r, 1).toString();
+        String ty = complaintsTable.getValueAt(r, 2).toString();
+        
+        comId.setText(id);
+        categ.setText(cat);
+        typ.setText(ty);
+    }//GEN-LAST:event_complaintsTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
