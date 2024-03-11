@@ -58,11 +58,11 @@ public class RegisterComplainant extends javax.swing.JPanel {
         try{
             Statement s = db.mycon().createStatement();
             
-            ResultSet rs = s.executeQuery("SELECT * FROM add_complaints");
+            ResultSet rs = s.executeQuery("SELECT * FROM depart");
             Vector v  = new Vector();
             
             while (rs.next()){
-                v.add(rs.getString("depatment"));
+                v.add(rs.getString("department"));
                 
                 DefaultComboBoxModel com  = new DefaultComboBoxModel(v);
                 comboDepat.setModel(com);   

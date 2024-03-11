@@ -12,7 +12,6 @@ public class HomePage extends javax.swing.JFrame {
     JpanelLoader jPload = new JpanelLoader();
 
     
-
     public HomePage() {
         initComponents();
         this.setExtendedState(HomePage.MAXIMIZED_BOTH);
