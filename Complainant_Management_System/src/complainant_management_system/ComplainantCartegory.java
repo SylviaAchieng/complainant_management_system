@@ -110,6 +110,12 @@ public class ComplainantCartegory extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Complainant Type:");
 
+        typ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typActionPerformed(evt);
+            }
+        });
+
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton5.setBackground(new java.awt.Color(0, 102, 102));
@@ -230,6 +236,11 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                 "Id", "Category", "Type"
             }
         ));
+        complaintsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                complaintsTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(complaintsTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -303,13 +314,14 @@ public class ComplainantCartegory extends javax.swing.JPanel {
 String search = comId.getText();
 try {
     Statement s = db.mycon().createStatement();
-    ResultSet rs = s.executeQuery("SELECT * FROM depart WHERE Id ='" + search + "'");
+    ResultSet rs = s.executeQuery("SELECT * FROM add_complaints WHERE Id ='" + search + "'");
     
     if (rs.next()) {
-        categ.setText(rs.getString("department")); 
+        categ.setText(rs.getString("category")); 
+        typ.setText(rs.getString("type")); 
     } else {
         // Handle case when no matching record is found
-        categ.setText("No department found for ID: " + search);
+        categ.setText("No category found for ID: " + search);
         typ.setText("No Type found for ID: " + search);
     }
 } catch (SQLException e) {
@@ -334,6 +346,23 @@ try {
 }
         tbLoad();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void complaintsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complaintsTableMouseClicked
+        // when mouse is clicked
+        int r = complaintsTable.getSelectedRow();
+        String id = complaintsTable.getValueAt(r, 0).toString();
+        String cate = complaintsTable.getValueAt(r, 1).toString();
+        String type = complaintsTable.getValueAt(r, 2).toString();
+        
+        
+        comId.setText(id);
+        categ.setText(cate);
+        typ.setText(type);
+    }//GEN-LAST:event_complaintsTableMouseClicked
+
+    private void typActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

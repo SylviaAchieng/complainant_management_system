@@ -89,6 +89,16 @@ public class RegTable extends javax.swing.JPanel {
                 "ID", "Department"
             }
         ));
+        depatTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                depatTableMouseClicked(evt);
+            }
+        });
+        depatTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                depatTableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(depatTable);
 
         jPanel7.setBackground(new java.awt.Color(0, 102, 102));
@@ -304,6 +314,15 @@ try {
 }
         tbLoad();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void depatTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_depatTableKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_depatTableKeyPressed
+
+    private void depatTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_depatTableMouseClicked
+        //load from table
+        int r = depatTable.getSelectedRow();
+    }//GEN-LAST:event_depatTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
