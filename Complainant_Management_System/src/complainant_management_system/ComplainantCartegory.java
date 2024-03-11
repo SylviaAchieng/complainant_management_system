@@ -298,20 +298,24 @@ public class ComplainantCartegory extends javax.swing.JPanel {
 
     private void compSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compSearchActionPerformed
        // Search:
-         String search = compSearch.getText();
-        try{
-            Statement s = db.mycon().createStatement();
-            
-            ResultSet rs = s.executeQuery("SELECT * FROM add_complaints WHERE Id ='"+search+"'");
-            
-            if (rs.next()){
-                categ.setText(rs.getString("category"));
-                typ.setText(rs.getString("type"));        
-            }
-        } catch (SQLException e){
-            System.out.println(e);
+         
+// Search:
+String search = comId.getText();
+try {
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT * FROM depart WHERE Id ='" + search + "'");
+    
+    if (rs.next()) {
+        categ.setText(rs.getString("department")); 
+    } else {
+        // Handle case when no matching record is found
+        categ.setText("No department found for ID: " + search);
+        typ.setText("No Type found for ID: " + search);
+    }
+} catch (SQLException e) {
+    e.printStackTrace(); // Printing stack trace for debugging purposes
+}
 
-        }
         tbLoad();
         
     }//GEN-LAST:event_compSearchActionPerformed
@@ -328,6 +332,7 @@ public class ComplainantCartegory extends javax.swing.JPanel {
             System.out.println(e);
            
 }
+        tbLoad();
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
