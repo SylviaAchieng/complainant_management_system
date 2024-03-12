@@ -25,6 +25,7 @@ public class FollowUp extends javax.swing.JPanel {
     }
     
     public void count(){
+        //count number of complaints registered
         try {
     Statement s = db.mycon().createStatement();
     ResultSet rs = s.executeQuery("SELECT COUNT(Id) AS count FROM register_complaint");
@@ -36,6 +37,44 @@ public class FollowUp extends javax.swing.JPanel {
 } catch (Exception e) {
     JOptionPane.showMessageDialog(null, e);
 }     
+    // count complaints in progress    
+    try {
+        Statement s = db.mycon().createStatement();
+        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%progress%'");
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+            msd.setText(formattedCount);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+    //count pending complaints
+       try {
+        Statement s = db.mycon().createStatement();
+        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%Pending%'");
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+            msr.setText(formattedCount);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+       
+       // count solved complaints
+       try {
+        Statement s = db.mycon().createStatement();
+        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%Solved%'");
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+            mds.setText(formattedCount);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+
         
  }
 
@@ -56,9 +95,9 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         msg = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        msd = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        mds = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -66,7 +105,7 @@ public class FollowUp extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        msr = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -135,8 +174,8 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(24, 1, 1, 1, new java.awt.Color(0, 102, 102)));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel10.setText("000");
+        msd.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        msd.setText("000");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -144,14 +183,14 @@ public class FollowUp extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(64, Short.MAX_VALUE)
-                .addComponent(jLabel10)
+                .addComponent(msd)
                 .addGap(56, 56, 56))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel10)
+                .addComponent(msd)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -160,8 +199,8 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel5.setForeground(new java.awt.Color(0, 51, 51));
         jPanel5.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel3.setText("000");
+        mds.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        mds.setText("000");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -169,14 +208,14 @@ public class FollowUp extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(jLabel3)
+                .addComponent(mds)
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jLabel3)
+                .addComponent(mds)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -198,8 +237,8 @@ public class FollowUp extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createMatteBorder(24, 1, 1, 1, new java.awt.Color(0, 102, 102)));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel2.setText("000");
+        msr.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        msr.setText("000");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -207,14 +246,14 @@ public class FollowUp extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(jLabel2)
+                .addComponent(msr)
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jLabel2)
+                .addComponent(msr)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -306,9 +345,6 @@ public class FollowUp extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -324,6 +360,9 @@ public class FollowUp extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel mds;
+    private javax.swing.JLabel msd;
     private javax.swing.JLabel msg;
+    private javax.swing.JLabel msr;
     // End of variables declaration//GEN-END:variables
 }
