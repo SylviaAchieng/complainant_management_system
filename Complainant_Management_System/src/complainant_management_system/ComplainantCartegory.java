@@ -334,7 +334,7 @@ try {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
           // Delete 
-         String id = compSearch.getText();
+         String id = comId.getText();
         try{
            Statement s = db.mycon().createStatement();
            s.executeUpdate("DELETE FROM add_complaints WHERE Id='"+id+"'");
