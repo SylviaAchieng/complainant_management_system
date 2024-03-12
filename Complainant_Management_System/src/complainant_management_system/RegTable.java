@@ -279,7 +279,7 @@ public class RegTable extends javax.swing.JPanel {
     private void depatSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depatSearchActionPerformed
 
 // Search:
-String search = depatSearch.getText();
+String search = depId.getText();
 try {
     Statement s = db.mycon().createStatement();
     ResultSet rs = s.executeQuery("SELECT * FROM depart WHERE Id ='" + search + "'");
@@ -322,6 +322,11 @@ try {
     private void depatTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_depatTableMouseClicked
         //load from table
         int r = depatTable.getSelectedRow();
+        String id = depatTable.getValueAt(r, 0).toString();
+        String dep = depatTable.getValueAt(r, 1).toString();
+        
+        depId.setText(id);
+        depatm.setText(dep);
     }//GEN-LAST:event_depatTableMouseClicked
 
 

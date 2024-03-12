@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package complainant_management_system;
-
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author YEWA
@@ -15,6 +21,36 @@ public class Action extends javax.swing.JPanel {
      */
     public Action() {
         initComponents();
+        tbLoad();
+    }
+    
+    public void tbLoad(){
+        
+        
+        try {
+            
+            DefaultTableModel dt = (DefaultTableModel) actionTable.getModel();
+            
+            dt.setRowCount(0);
+            
+            Statement s = db.mycon().createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM register_complaint");
+            
+            while(rs.next()){
+                Vector v = new Vector();
+                
+                v.add(rs.getString(1));
+                v.add(rs.getString(3));
+                v.add(rs.getString(2));
+                v.add(rs.getString(5));
+                v.add(rs.getString(4));
+                v.add(rs.getString(6));
+                
+                dt.addRow(v);
+            }   
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
 
     /**
@@ -50,7 +86,7 @@ public class Action extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        actionTable = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,18 +268,18 @@ public class Action extends javax.swing.JPanel {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        actionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id ", "Type", "Department", "Description", "Resolution Details"
+                "Id ", "Department", "Title", "Status", "Details", "Date"
             }
         ));
-        jScrollPane5.setViewportView(jTable3);
+        jScrollPane5.setViewportView(actionTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -267,6 +303,7 @@ public class Action extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable actionTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -286,7 +323,6 @@ public class Action extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
