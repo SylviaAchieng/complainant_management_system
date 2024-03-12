@@ -367,20 +367,23 @@ public class RegisterComplainant extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // Submit 
-        //category depatment title  status date  word_details
+        // Submit complaint
+        //category depatment title  status date  word_details statuss details
         String categ = comboCategory.getSelectedItem().toString();
         String depatment = comboDepat.getSelectedItem().toString();
         String tit = title_c.getText();
         String statu =comboStatus.getSelectedItem().toString();
         String det= jdate.getText();
         String words = textWords.getText();
+        String  txt = "Not Yet solved";
+        String td = "No Resolution Details";
+        
        
         
         try{
             Statement s = db.mycon().createStatement();
              //category depatment title  status date  word_details
-            s.executeUpdate("INSERT INTO register_complaint(category,depatment,title,status,date,word_details) VALUES ('"+categ+"','"+depatment+"','"+tit+"','"+statu+"','"+det+"','"+words+"')");
+            s.executeUpdate("INSERT INTO register_complaint(category,depatment,title,status,date,word_details,statuss,details) VALUES ('"+categ+"','"+depatment+"','"+tit+"','"+statu+"','"+det+"','"+words+"','"+txt+"','"+td+"')");
       
             JOptionPane.showMessageDialog(null,"complaints submited Succesfully");
             
