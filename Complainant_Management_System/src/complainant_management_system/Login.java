@@ -222,19 +222,6 @@ public class Login extends javax.swing.JFrame {
         else{
             LoginTest(username, pass, rank);
         }
-        
-        try{
-            Statement s = db.mycon().createStatement();
-             //inserting
-            s.executeUpdate("SELECT FROM user(email, password, rank) VALUES ('"+username+"','"+pass+"','"+rank+"')");
-            
-      
-            JOptionPane.showMessageDialog(null,"Login Succesfully");
-            
-        }catch(SQLException e){
-            System.out.println(e);
-            
-        }
     }//GEN-LAST:event_btnLogin1ActionPerformed
 
     private void cbRankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRankActionPerformed
@@ -265,20 +252,16 @@ public class Login extends javax.swing.JFrame {
 
     public void LoginTest(String username, String pass, String rank) {
         
-        if(rank.equals("Student")){
-            HomePage newDashboard = new HomePage();
-            newDashboard.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Staff")){
-            HomePage newStaff = new HomePage();
-            newStaff.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Non-Staff")){
-            HomePage newNonStaff = new HomePage();
-            newNonStaff.setVisible(true);
-            this.setVisible(false); 
+        try{
+            Statement s = db.mycon().createStatement();
+             //category depatment title  status date  word_details
+            s.executeUpdate("SELECT * FROM user WHERE username=? and password=? and rank=?");
+            
+            JOptionPane.showMessageDialog(null,"Login Succesfully");
+     
+            
+        }catch(SQLException e){
+            System.out.println(e);
             
         }
         this.dispose();
