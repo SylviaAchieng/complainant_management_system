@@ -8,7 +8,9 @@ import complainant_management_system.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,7 +24,38 @@ public class FollowUp extends javax.swing.JPanel {
     public FollowUp() {
         initComponents();
         count();
+        tbLoad();
     }
+    
+      public void tbLoad(){
+        
+        
+        try {
+            
+            DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
+            
+            dt.setRowCount(0);
+            
+            Statement s = db.mycon().createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM register_complaint");
+            
+            while(rs.next()){
+                Vector v = new Vector();
+                
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(2));
+                v.add(rs.getString(8));
+                v.add(rs.getString(9));
+               
+                
+                dt.addRow(v);
+            }   
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+        
     
     public void count(){
         //count number of complaints registered
@@ -74,6 +107,7 @@ public class FollowUp extends javax.swing.JPanel {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
+       tbLoad();
 
         
  }
@@ -88,7 +122,7 @@ public class FollowUp extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        fTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -110,7 +144,7 @@ public class FollowUp extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        fTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -118,10 +152,10 @@ public class FollowUp extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Complaints", "Department", "Category", "Status", "Description"
+                "Department", "Title", "Category", "Status", "Description"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(fTable);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -344,6 +378,7 @@ public class FollowUp extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable fTable;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -358,7 +393,6 @@ public class FollowUp extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel mds;
     private javax.swing.JLabel msd;

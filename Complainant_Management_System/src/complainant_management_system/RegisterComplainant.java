@@ -375,7 +375,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
         String statu =comboStatus.getSelectedItem().toString();
         String det= jdate.getText();
         String words = textWords.getText();
-        String  txt = "Not Yet solved";
+        String  txt = "Not Yet Checked";
         String td = "No Resolution Details";
         
        
