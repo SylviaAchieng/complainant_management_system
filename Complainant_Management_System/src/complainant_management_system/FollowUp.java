@@ -8,7 +8,9 @@ import complainant_management_system.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,7 +24,38 @@ public class FollowUp extends javax.swing.JPanel {
     public FollowUp() {
         initComponents();
         count();
+        tbLoad();
     }
+    
+      public void tbLoad(){
+        
+        
+        try {
+            
+            DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
+            
+            dt.setRowCount(0);
+            
+            Statement s = db.mycon().createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM register_complaint");
+            
+            while(rs.next()){
+                Vector v = new Vector();
+                
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(2));
+                v.add(rs.getString(8));
+                v.add(rs.getString(9));
+               
+                
+                dt.addRow(v);
+            }   
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+        
     
     public void count(){
         //count number of complaints registered
@@ -74,6 +107,7 @@ public class FollowUp extends javax.swing.JPanel {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
+       tbLoad();
 
         
  }
@@ -88,7 +122,7 @@ public class FollowUp extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        fTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -103,14 +137,14 @@ public class FollowUp extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        fSearch = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         msr = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        fTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -118,10 +152,10 @@ public class FollowUp extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Complaints", "Department", "Category", "Status", "Description"
+                "Department", "Title", "Category", "Status", "Description"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(fTable);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -234,6 +268,12 @@ public class FollowUp extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Search");
 
+        fSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fSearchKeyReleased(evt);
+            }
+        });
+
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createMatteBorder(24, 1, 1, 1, new java.awt.Color(0, 102, 102)));
 
@@ -270,8 +310,8 @@ public class FollowUp extends javax.swing.JPanel {
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
@@ -290,7 +330,7 @@ public class FollowUp extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +359,7 @@ public class FollowUp extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
@@ -342,8 +382,39 @@ public class FollowUp extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fSearchKeyReleased
+        // TODO add your handling code here:
+        String ti = fSearch.getText();
+         try{
+             DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
+             dt.setRowCount(0);
+             Statement s = db.mycon().createStatement();
+            
+             
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+ti+"%' ");
+        while(rs.next()){
+                 Vector v = new Vector();
+                 
+                 v.add(rs.getString(3));
+                 v.add(rs.getString(4));
+                 v.add(rs.getString(2));
+                 v.add(rs.getString(8));
+                 v.add(rs.getString(9));
+                 
+                 dt.addRow(v);
+                 
+             }
+         }catch(SQLException e){
+             tbLoad();
+             
+         }
+
+    }//GEN-LAST:event_fSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField fSearch;
+    private javax.swing.JTable fTable;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -358,8 +429,6 @@ public class FollowUp extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel mds;
     private javax.swing.JLabel msd;
     private javax.swing.JLabel msg;
