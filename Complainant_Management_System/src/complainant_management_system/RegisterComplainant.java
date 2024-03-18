@@ -4,7 +4,9 @@
  */
 package complainant_management_system;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -218,8 +220,8 @@ public class RegisterComplainant extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(label3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,30 +372,51 @@ public class RegisterComplainant extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // Submit complaint
-        //category depatment title  status date  word_details statuss details
-        String categ = comboCategory.getSelectedItem().toString();
-        String depatment = comboDepat.getSelectedItem().toString();
-        String tit = title_c.getText();
-        String statu =comboStatus.getSelectedItem().toString();
-        String det= jdate.getText();
-        String words = textWords.getText();
-        String  txt = "Not Yet Checked";
-        String td = "No Resolution Details";
-        
-       
-        
-        try{
-            Statement s = db.mycon().createStatement();
-             //category depatment title  status date  word_details
-            s.executeUpdate("INSERT INTO register_complaint(category,depatment,title,status,date,word_details,statuss,details) VALUES ('"+categ+"','"+depatment+"','"+tit+"','"+statu+"','"+det+"','"+words+"','"+txt+"','"+td+"')");
-      
-            JOptionPane.showMessageDialog(null,"complaints submited Succesfully");
-            
-        }catch(SQLException e){
-            System.out.println(e);
-            
+    // Submit complaint
+    //category depatment title  status date  word_details statuss details
+    String category = comboCategory.getSelectedItem().toString();
+    String department = comboDepat.getSelectedItem().toString();
+    String title = title_c.getText();
+    String status = comboStatus.getSelectedItem().toString();
+    String date = jdate.getText();
+    String wordDetails = textWords.getText();
+    String statusDetails = "Not Yet Checked";
+    String resolutionDetails = "No Resolution Details";
+    
+    
+    try {
+        // Show file chooser dialog to select a file
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        File selectedFile = null;
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
         }
+        
+        // Insert complaint into database
+        Statement statement = db.mycon().createStatement();
+        // category depatment title status date word_details statuss details files
+        statement.executeUpdate("INSERT INTO register_complaint(category, depatment, title, status, date, word_details, statuss, details, files) VALUES ('" + category + "','" + department + "','" + title + "','" + status + "','" + date + "','" + wordDetails + "','" + statusDetails + "','" + resolutionDetails + "','" + (selectedFile != null ? selectedFile.getAbsolutePath() : "") + "')");
+        JOptionPane.showMessageDialog(null, "Complaint submitted successfully");
+        
+        // View the uploaded file
+        if (selectedFile != null) {
+            viewFile(selectedFile);
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+}
+
+private void viewFile(File file) {
+    // Here you can implement code to view or open the file
+    // For example, you can open the file in the default application associated with its file type
+    try {
+        Desktop.getDesktop().open(file);
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error opening file");
+    }
        
     }//GEN-LAST:event_submitActionPerformed
 
