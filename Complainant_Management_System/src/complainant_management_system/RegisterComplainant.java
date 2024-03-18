@@ -4,12 +4,15 @@
  */
 package complainant_management_system;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -100,7 +103,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        label3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -205,7 +208,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setText("No file Chosen");
+        label3.setText("No file Chosen");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -215,7 +218,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -224,7 +227,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jLabel11))
+                    .addComponent(label3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -402,9 +405,48 @@ public class RegisterComplainant extends javax.swing.JPanel {
     }//GEN-LAST:event_comboCategoryActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // call get Files;
-        getFiles gf = new getFiles();
-        dPload.jPanelLoader(panel5, gf);
+    // Call getFiles
+    JFileChooser fileChooser = new JFileChooser();
+    
+    // Add filters for documents and pictures
+    FileNameExtensionFilter docFilter = new FileNameExtensionFilter("Documents", "doc", "docx", "pdf", "txt");
+    FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "gif");
+    
+    // Add filters to file chooser
+    fileChooser.setAcceptAllFileFilterUsed(false); // Disable "All Files" option
+    fileChooser.addChoosableFileFilter(docFilter);
+    fileChooser.addChoosableFileFilter(imgFilter);
+    
+    int returnValue = fileChooser.showOpenDialog(null);
+    if (returnValue == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = fileChooser.getSelectedFile();
+        String filePath = selectedFile.getAbsolutePath();
+        
+        // Set the text of label3 to the name of the selected file
+        label3.setText(selectedFile.getName());
+        
+        String extension = getFileExtension(selectedFile);
+        if (extension != null) {
+            if (extension.equalsIgnoreCase("doc") || extension.equalsIgnoreCase("docx") || extension.equalsIgnoreCase("pdf") || extension.equalsIgnoreCase("txt")) {
+                // Selected file is a document
+                System.out.println("Selected document: " + selectedFile.getName());
+            } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("gif")) {
+                // Selected file is an image
+                System.out.println("Selected image: " + selectedFile.getName());
+            }
+        }
+    }
+}
+
+// Method to get file extension
+private String getFileExtension(File file) {
+    String name = file.getName();
+    int lastIndexOfDot = name.lastIndexOf(".");
+    if (lastIndexOfDot == -1 || lastIndexOfDot == 0 || lastIndexOfDot == name.length() - 1) {
+        return null; // No extension found or dot is the first or last character
+    }
+    return name.substring(lastIndexOfDot + 1);              
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -415,7 +457,6 @@ public class RegisterComplainant extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -430,6 +471,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jdate;
+    private javax.swing.JLabel label3;
     private javax.swing.JPanel panel5;
     private javax.swing.JButton submit;
     private javax.swing.JTextArea textWords;
