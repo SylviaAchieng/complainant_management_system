@@ -163,7 +163,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // calling dashboard
-        Contennt content = new Contennt();
+        Content content = new Content();
         jPload.jPanelLoader(adminframe, content);
         
         
@@ -210,6 +210,7 @@ public class Admin extends javax.swing.JFrame {
                 new Admin().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
