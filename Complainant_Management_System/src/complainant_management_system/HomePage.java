@@ -12,26 +12,20 @@ import javax.swing.JTextField;
 
 public class HomePage extends javax.swing.JFrame {
     JpanelLoader jPload = new JpanelLoader();
-    private String cbRank;
 
     
 
     public HomePage() {
+        initComponents();
         
         this.setExtendedState(HomePage.MAXIMIZED_BOTH);
     }
     
-    String Rank;
-    JTextField Username;
-    JComboBox<String> hfdj;
 
-    public HomePage(JComboBox<String> cbRank, JTextField txtUsername) {
-        initComponents();
+    
+
+    HomePage(JComboBox<String> cbRank, JTextField txtUsername) {
         
-        this.hfdj=cbRank;
-        user.setText(this.cbRank);
-        
-        this.Username=txtUsername;
         
     }
 
