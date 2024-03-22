@@ -135,7 +135,7 @@ public class FollowUp extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboSearch = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         fSearch = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -262,7 +262,12 @@ public class FollowUp extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Solved Complaints");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "View All Complaints", "View only My Compaints" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Yet Checked", "Pending", "In Progress", "Solved" }));
+        comboSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSearchActionPerformed(evt);
+            }
+        });
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -307,7 +312,7 @@ public class FollowUp extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -357,7 +362,7 @@ public class FollowUp extends javax.swing.JPanel {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
@@ -411,11 +416,39 @@ public class FollowUp extends javax.swing.JPanel {
 
     }//GEN-LAST:event_fSearchKeyReleased
 
+    private void comboSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSearchActionPerformed
+           String cat= comboSearch.getSelectedItem().toString();
+         try{
+             DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
+             dt.setRowCount(0);
+             Statement s = db.mycon().createStatement();
+            
+             
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+cat+"%' ");
+        while(rs.next()){
+                 Vector v = new Vector();
+                 
+                 v.add(rs.getString(3));
+                 v.add(rs.getString(4));
+                 v.add(rs.getString(2));
+                 v.add(rs.getString(8));
+                 v.add(rs.getString(9));
+                 
+                 dt.addRow(v);
+                 
+             }
+         }catch(SQLException e){
+             tbLoad();
+             
+         }
+
+    }//GEN-LAST:event_comboSearchActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboSearch;
     private javax.swing.JTextField fSearch;
     private javax.swing.JTable fTable;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
