@@ -6,6 +6,11 @@ package complainant_management_system;
 
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -212,28 +217,35 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
         // TODO add your handling code here:
-        String username = txtUsername.getText();
-        String pass = txtPass.getText();
-        String rank = (String) cbRank.getSelectedItem();
-        if(username.length()==0)
-            JOptionPane.showMessageDialog(this, "Please type a username");
-        else if(pass.length()==0)
-            JOptionPane.showMessageDialog(this, "Please type the password");
-        else{
-            LoginTest(username, pass, rank);
-        }
-        
         try{
-            Statement s = db.mycon().createStatement();
-             //inserting
-            s.executeUpdate("SELECT FROM user(email, password, rank) VALUES ('"+username+"','"+pass+"','"+rank+"')");
+            Class.forName("com.mysql.jdbc.Driver");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
+            Connection con =DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");
+            String sql = "Select * from user where email=? and password=? and rank=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, txtUsername.getText());
+            pst.setString(2, txtPass.getText());
+            pst.setString(3, cbRank.getSelectedItem().toString());
             
-      
-            JOptionPane.showMessageDialog(null,"Login Succesfully");
+            ResultSet rs = pst.executeQuery();
             
-        }catch(SQLException e){
-            System.out.println(e);
+            if(rs.next()){
+                //JOptionPane.showMessageDialog(null, "Login successful");
+                int userid = rs.getInt("id");
+                HomePage newAdmin = new HomePage(cbRank, txtUsername);
+                newAdmin.setVisible(true);
+                this.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Username and password do not match");
+                txtUsername.setText("");
+                txtPass.setText("");
+                
+            }
+            con.close();
             
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnLogin1ActionPerformed
 
@@ -263,26 +275,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    public void LoginTest(String username, String pass, String rank) {
-        
-        if(rank.equals("Student")){
-            HomePage newDashboard = new HomePage();
-            newDashboard.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Staff")){
-            HomePage newStaff = new HomePage();
-            newStaff.setVisible(true);
-            this.setVisible(false);
-        }
-        else if(rank.equals("Non-Staff")){
-            HomePage newNonStaff = new HomePage();
-            newNonStaff.setVisible(true);
-            this.setVisible(false); 
-            
-        }
-        this.dispose();
-          
-          
-    }
+    
 }
