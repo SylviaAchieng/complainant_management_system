@@ -24,7 +24,7 @@ public class Home extends javax.swing.JFrame {
     }
     
     public void Home (){
-        ImageIcon icon = new ImageIcon("C:\\Users\\Lenovo\\Downloads\\pic\\pic\\chk.jpg");
+        ImageIcon icon = new ImageIcon("C:\\Users\\Lenovo\\complainant_management_system\\Complainant_Management_System\\image\\chk.jpg");
         Image img = icon.getImage();
         Image home = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(home);
