@@ -230,9 +230,8 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             
             if(rs.next()){
-                //JOptionPane.showMessageDialog(null, "Login successful");
-                int userid = rs.getInt("id");
-                HomePage newAdmin = new HomePage(cbRank, txtUsername);
+                JOptionPane.showMessageDialog(null, "Login successful");
+                HomePage newAdmin = new HomePage();
                 newAdmin.setVisible(true);
                 this.setVisible(false);
             }
