@@ -4,6 +4,7 @@
  */
 package complainant_management_system;
 
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.sql.Connection;
@@ -219,8 +220,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
-            Connection con =DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");
+            Connection  con= DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
+           // Connection con =DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");
             String sql = "Select * from user where email=? and password=? and rank=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, txtUsername.getText());
@@ -243,7 +244,7 @@ public class Login extends javax.swing.JFrame {
             }
             con.close();
             
-        }catch(Exception e){
+        }catch(HeadlessException | ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnLogin1ActionPerformed

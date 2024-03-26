@@ -436,7 +436,7 @@ private void viewFile(File file) {
     FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "gif");
     
     // Add filters to file chooser
-    fileChooser.setAcceptAllFileFilterUsed(false); // Disable "All Files" option
+    //fileChooser.setAcceptAllFileFilterUsed(false); // Disable "All Files" option
     fileChooser.addChoosableFileFilter(docFilter);
     fileChooser.addChoosableFileFilter(imgFilter);
     
