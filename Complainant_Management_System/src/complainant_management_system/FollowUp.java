@@ -425,14 +425,14 @@ public class FollowUp extends javax.swing.JPanel {
     private void comboSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSearchActionPerformed
         // TODO add your handling code here:
                 // TODO add your handling code here:
-        String ti = fSearch.getText();
+        String cat = comboSearch.getSelectedItem().toString();
          try{
              DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
              dt.setRowCount(0);
              Statement s = db.mycon().createStatement();
             
              
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+ti+"%' ");
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+cat+"%' ");
         while(rs.next()){
                  Vector v = new Vector();
                  
