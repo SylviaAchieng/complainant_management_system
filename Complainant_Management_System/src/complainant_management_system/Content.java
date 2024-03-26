@@ -395,44 +395,20 @@ public class Content extends javax.swing.JPanel {
 
     private void fSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fSearchKeyReleased
         // TODO add your handling code here:
-        String cat = comboSearch.getSelectedItem().toString();
-         try{
-             DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
-             dt.setRowCount(0);
-             Statement s = db.mycon().createStatement();
-            
-             
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%' ");
-        while(rs.next()){
-                 Vector v = new Vector();
-                 
-                 v.add(rs.getString(3));
-                 v.add(rs.getString(4));
-                 v.add(rs.getString(2));
-                 v.add(rs.getString(8));
-                 v.add(rs.getString(9));
-                 
-                 dt.addRow(v);
-                 
-             }
-         }catch(SQLException e){
-             tbLoad();
-             
-         }
 
     }//GEN-LAST:event_fSearchKeyReleased
 
     private void comboSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSearchActionPerformed
         // TODO add your handling code here:
                 // TODO add your handling code here:
-        String ti = fSearch.getText();
+        String tip = comboSearch.getSelectedItem().toString();
          try{
              DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
              dt.setRowCount(0);
              Statement s = db.mycon().createStatement();
             
              
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+ti+"%' ");
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+tip+"%' ");
         while(rs.next()){
                  Vector v = new Vector();
                  

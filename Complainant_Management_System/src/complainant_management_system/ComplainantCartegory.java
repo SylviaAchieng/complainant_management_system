@@ -39,7 +39,7 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                 v.add(rs.getString(1));
                 v.add(rs.getString(2));
                 v.add(rs.getString(3));
-                v.add(rs.getString(4));
+              
                 
                 dt.addRow(v);
             }
@@ -70,8 +70,6 @@ public class ComplainantCartegory extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         comId = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        dept_Type = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         complaintsTable = new javax.swing.JTable();
 
@@ -189,9 +187,6 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Department");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -203,14 +198,12 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(categ, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                     .addComponent(typ, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                    .addComponent(comId)
-                    .addComponent(dept_Type))
+                    .addComponent(comId))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -220,32 +213,28 @@ public class ComplainantCartegory extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(comId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(dept_Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(categ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(typ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         complaintsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id", "Department", "Category", "Type"
+                "Id", "Category", "Type"
             }
         ));
         complaintsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -289,13 +278,13 @@ public class ComplainantCartegory extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
          // Saving data in the table:
-        String dept = dept_Type.getText();
+        
         String category = categ.getText();
         String comp_Type = typ.getText();
         
         try{
             Statement s = db.mycon().createStatement();
-            s.executeUpdate(" INSERT INTO add_complaints(depatment, category,type) VALUES ('"+dept+"','"+category+"','"+comp_Type+"')");
+            s.executeUpdate(" INSERT INTO add_complaints(category,type) VALUES ('"+category+"','"+comp_Type+"')");
             JOptionPane.showMessageDialog(null, "Data Saved");
            } catch (HeadlessException | SQLException e) {
                System.out.println(e);
@@ -307,14 +296,13 @@ public class ComplainantCartegory extends javax.swing.JPanel {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
           // update data
         String ID = comId.getText();
-        String dept = dept_Type.getText();
         String category = categ.getText();
         String comp_Type= typ.getText();
         
         
         try{
             Statement s = db.mycon().createStatement();
-             s.executeUpdate("UPDATE add_complaints SET depatment='"+dept+"' , category='"+category+"',type='"+comp_Type+"' WHERE id= '"+ID+"'");
+             s.executeUpdate("UPDATE add_complaints SET  category='"+category+"',type='"+comp_Type+"' WHERE id= '"+ID+"'");
              JOptionPane.showMessageDialog(null, "Data Updated");
             
         }catch (HeadlessException | SQLException e){
@@ -334,17 +322,16 @@ try {
     ResultSet rs = s.executeQuery("SELECT * FROM add_complaints WHERE Id ='" + search + "'");
     
     if (rs.next()) {
-        dept_Type.setText(rs.getString("depatment"));
         categ.setText(rs.getString("category")); 
         typ.setText(rs.getString("type")); 
     } else {
         // Handle case when no matching record is found
-        dept_Type.setText("No Department found for ID: " + search);
         categ.setText("No category found for ID: " + search);
         typ.setText("No Type found for ID: " + search);
     }
 } catch (SQLException e) {
-    e.printStackTrace(); // Printing stack trace for debugging purposes
+    // Printing stack trace for debugging purposes
+    
 }
 
         tbLoad();
@@ -370,14 +357,12 @@ try {
         // when mouse is clicked
         int r = complaintsTable.getSelectedRow();
         String id = complaintsTable.getValueAt(r, 0).toString();
-        String dep = complaintsTable.getValueAt(r, 1).toString();
-        String cate = complaintsTable.getValueAt(r, 2).toString();
-        String type = complaintsTable.getValueAt(r, 3).toString();
+        String cate = complaintsTable.getValueAt(r, 1).toString();
+        String type = complaintsTable.getValueAt(r, 2).toString();
         
         
         
         comId.setText(id);
-        dept_Type.setText(dep);
         categ.setText(cate);
         typ.setText(type);
     }//GEN-LAST:event_complaintsTableMouseClicked
@@ -392,7 +377,6 @@ try {
     private javax.swing.JTextField comId;
     private javax.swing.JButton compSearch;
     private javax.swing.JTable complaintsTable;
-    private javax.swing.JTextField dept_Type;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -400,7 +384,6 @@ try {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
