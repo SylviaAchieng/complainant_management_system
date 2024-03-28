@@ -227,6 +227,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
+                                     
                                         
     String email = txtUsername.getText();
     String pass = new String(txtPass.getPassword());
@@ -234,17 +235,17 @@ public class Login extends javax.swing.JFrame {
     if(email.length() == 0 || pass.length() == 0) {
         JOptionPane.showMessageDialog(this, "Please enter email and password");
     } else {
-     
         try {
-            // Establish database connection
             Statement s = (Statement) db.mycon().createStatement();
-
-            
-            ResultSet rs= s.executeQuery("SELECT * FROM user WHERE email = '" + email + "' AND password = '" + pass + "'");
+            ResultSet rs = s.executeQuery("SELECT * FROM user WHERE email = '" + email + "' AND password = '" + pass + "'");
 
             if (rs.next()) {
                 // Login successful
                 JOptionPane.showMessageDialog(this, "Login successful");
+                
+                // Store the logged-in email in the session manager
+                SessionManager.setLoggedInEmail(email);
+                
                 // Open HomePage panel
                 HomePage homePage = new HomePage();
                 homePage.setVisible(true);
@@ -255,11 +256,8 @@ public class Login extends javax.swing.JFrame {
             }
         } catch(SQLException e) {
             // Handle any SQL exceptions
-
         } 
-        
     }
-
 
 
     }//GEN-LAST:event_btnLogin1ActionPerformed

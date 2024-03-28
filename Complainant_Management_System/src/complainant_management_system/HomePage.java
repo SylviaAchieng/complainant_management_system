@@ -2,8 +2,12 @@
 package complainant_management_system;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
@@ -17,9 +21,37 @@ public class HomePage extends javax.swing.JFrame {
 
     public HomePage() {
         initComponents();
+        change();
         
         this.setExtendedState(HomePage.MAXIMIZED_BOTH);
     }
+    
+public void change() {
+    try {
+        // Get the logged-in email from the SessionManager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
+        
+        // Assuming db.mycon() returns a Connection object
+        Statement s = db.mycon().createStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM user WHERE email = '" + loggedInEmail + "'");
+
+     
+        if (rs.next()) {
+            // Retrieve the email from the ResultSet
+            String email = rs.getString("email");
+           
+            emaill.setText(email);
+        }
+        
+        rs.close();
+        s.close();
+        
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+}
+
+
     
 
     @SuppressWarnings("unchecked")
@@ -28,9 +60,9 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         user1 = new javax.swing.JLabel();
-        user = new javax.swing.JTextField();
+        userr = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
+        emaill = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -48,9 +80,9 @@ public class HomePage extends javax.swing.JFrame {
         user1.setForeground(new java.awt.Color(255, 255, 255));
         user1.setText("User Name");
 
-        user.addActionListener(new java.awt.event.ActionListener() {
+        userr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userActionPerformed(evt);
+                userrActionPerformed(evt);
             }
         });
 
@@ -71,12 +103,12 @@ public class HomePage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(user1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(userr, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(119, 119, 119))
+                        .addComponent(emaill, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -89,9 +121,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(userr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(emaill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(user1))
                 .addContainerGap())
         );
@@ -247,9 +279,9 @@ public class HomePage extends javax.swing.JFrame {
         jPload.jPanelLoader(home_load, histo);
     }
 
-    private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
+    private void userrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userrActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userActionPerformed
+    }//GEN-LAST:event_userrActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,7 +320,7 @@ public class HomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMakecomplain;
-    private javax.swing.JTextField email;
+    private javax.swing.JTextField emaill;
     private javax.swing.JPanel home_load;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -298,7 +330,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField user;
     private javax.swing.JLabel user1;
+    private javax.swing.JTextField userr;
     // End of variables declaration//GEN-END:variables
 }
