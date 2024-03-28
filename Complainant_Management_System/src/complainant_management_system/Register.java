@@ -211,7 +211,7 @@ public class Register extends javax.swing.JFrame {
         else if(pass.length()==0)
             JOptionPane.showMessageDialog(this, "Please type password");
         else if(rank.length()==0)
-            JOptionPane.showMessageDialog(this, "Please choose rank");
+            JOptionPane.showMessageDialog(this, "Please choose rankk");
         else{
             AddNewUser(username, email, pass, rank);
         }
@@ -220,7 +220,8 @@ public class Register extends javax.swing.JFrame {
         try{
             Statement s = db.mycon().createStatement();
              //inserting
-            s.executeUpdate("INSERT INTO user(username, email, password, rank) VALUES ('"+username+"','"+email+"','"+pass+"','"+rank+"')");
+            s.executeUpdate("INSERT INTO user(username, email, password,rankk) VALUES ('"+username+"','"+email+"','"+pass+"','"+rank+"')");
+
       
             JOptionPane.showMessageDialog(null,"Registration Succesfully");
             
