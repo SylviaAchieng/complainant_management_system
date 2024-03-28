@@ -4,6 +4,7 @@
  */
 package complainant_management_system;
 
+import complainant_management_system.HomePage;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
@@ -12,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -217,36 +220,44 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
-        // TODO add your handling code here:
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection  con= DriverManager.getConnection("jdbc:mysql://localhost:3306/complainant","root","abraham@074021");
-           // Connection con =DriverManager.getConnection("jdbc:mysql://localhost/complainant","root","");
-            String sql = "Select * from user where email=? and password=? and rank=?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, txtUsername.getText());
-            pst.setString(2, txtPass.getText());
-            pst.setString(3, cbRank.getSelectedItem().toString());
-            
-            ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Login successful");
-                HomePage newAdmin = new HomePage();
-                newAdmin.setVisible(true);
-                this.setVisible(false);
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Username and password do not match");
-                txtUsername.setText("");
-                txtPass.setText("");
-                
-            }
-            con.close();
-            
-        }catch(HeadlessException | ClassNotFoundException | SQLException e){
-            JOptionPane.showMessageDialog(null, e);
+                                         
+    try {
+        // Get the connection from your database class
+        Connection con = db.mycon();
+
+        // Create a PreparedStatement for executing parameterized query
+        String sql = "SELECT * FROM user WHERE email=? AND password=? AND rankk=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, txtUsername.getText());
+        pst.setString(2, txtPass.getText());
+        pst.setString(3, cbRank.getSelectedItem().toString());
+
+        // Execute the query
+        ResultSet rs = pst.executeQuery();
+
+        // Check if a matching user is found
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Login successful");
+            HomePage newAdmin = new HomePage();
+            newAdmin.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Username and password do not match");
+            txtUsername.setText("");
+            txtPass.setText("");
         }
+
+        // Close resources
+        rs.close();
+        pst.close();
+        con.close();
+        
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+
+       
+
     }//GEN-LAST:event_btnLogin1ActionPerformed
 
     private void cbRankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRankActionPerformed
