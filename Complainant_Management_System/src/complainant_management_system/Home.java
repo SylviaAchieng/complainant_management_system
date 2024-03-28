@@ -145,6 +145,7 @@ public class Home extends javax.swing.JFrame {
         
         Login newLogin = new Login();
         newLogin.setVisible(true);
+        newLogin.setLocationRelativeTo(null);
         
     }//GEN-LAST:event_HomeLoginActionPerformed
 
