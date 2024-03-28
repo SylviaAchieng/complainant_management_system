@@ -5,6 +5,7 @@
 package complainant_management_system;
 
 import complainant_management_system.HomePage;
+import complainant_management_system.db;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
@@ -220,41 +221,32 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
-                                         
-    try {
-        // Get the connection from your database class
-        Connection con = db.mycon();
+try {
+    Statement s =db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT * FROM user WHERE email='" + txtUsername.getText() + "' AND password='" + txtPass.getText() + "' AND rankk='" + cbRank.getSelectedItem().toString() + "'" );
 
-        // Create a PreparedStatement for executing parameterized query
-        String sql = "SELECT * FROM user WHERE email=? AND password=? AND rankk=?";
-        PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, txtUsername.getText());
-        pst.setString(2, txtPass.getText());
-        pst.setString(3, cbRank.getSelectedItem().toString());
-
-        // Execute the query
-        ResultSet rs = pst.executeQuery();
-
-        // Check if a matching user is found
-        if (rs.next()) {
-            JOptionPane.showMessageDialog(null, "Login successful");
-            HomePage newAdmin = new HomePage();
-            newAdmin.setVisible(true);
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Username and password do not match");
-            txtUsername.setText("");
-            txtPass.setText("");
-        }
-
-        // Close resources
-        rs.close();
-        pst.close();
-        con.close();
-        
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, e);
+  
+    
+  
+    if (rs.next()) {
+        JOptionPane.showMessageDialog(null, "Login successful");
+        HomePage newAdmin = new HomePage();
+        newAdmin.setVisible(true);
+        this.setVisible(false);
+    } else {
+        JOptionPane.showMessageDialog(null, "Username and password do not match");
+        txtUsername.setText("");
+        txtPass.setText("");
     }
+
+    rs.close();
+    s.close();
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "SQL Exception: " + e.getMessage());
+    // This will print the full stack trace to the console for debugging
+    // This will print the full stack trace to the console for debugging
+}
+
 
        
 
