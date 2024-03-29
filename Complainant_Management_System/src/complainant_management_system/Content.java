@@ -422,8 +422,8 @@ public class Content extends javax.swing.JPanel {
                  
              }
          }catch(SQLException e){
-             tbLoad();
              
+             tbLoad();
          }
     }//GEN-LAST:event_comboSearchActionPerformed
 
