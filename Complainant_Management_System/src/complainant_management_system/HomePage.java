@@ -1,10 +1,13 @@
 
 package complainant_management_system;
 
+    
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;
 
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 
  
@@ -17,9 +20,46 @@ public class HomePage extends javax.swing.JFrame {
 
     public HomePage() {
         initComponents();
+        change();
         
         this.setExtendedState(HomePage.MAXIMIZED_BOTH);
     }
+
+
+public void change() {
+    try {
+        // Get the logged-in email from the SessionManager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
+        
+        // Assuming db.mycon() returns a Connection object
+        Connection connection = db.mycon();
+        
+        // Creating a statement
+        Statement s = connection.createStatement();
+        
+        // Executing the query to select data for the logged-in email
+        ResultSet rs = s.executeQuery("SELECT * FROM user WHERE email = '" + loggedInEmail + "'");
+        
+        // Assuming emaill is a JTextField where you want to display the email
+        if (rs.next()) {
+            // Retrieve the email from the ResultSet
+            String email = rs.getString("email");
+            // Set the retrieved email to the JTextField
+            emaill.setText(email);
+        }
+        
+        // Close ResultSet, Statement, and Connection
+        rs.close();
+        s.close();
+        connection.close();
+        
+    } catch (Exception e) {
+        // Handle exceptions
+        JOptionPane.showMessageDialog(null, e);
+    }
+}
+
+
     
 
     @SuppressWarnings("unchecked")
@@ -30,7 +70,7 @@ public class HomePage extends javax.swing.JFrame {
         user1 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
+        emaill = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -75,7 +115,7 @@ public class HomePage extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emaill, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(119, 119, 119))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -91,7 +131,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(emaill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(user1))
                 .addContainerGap())
         );
@@ -288,7 +328,7 @@ public class HomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMakecomplain;
-    private javax.swing.JTextField email;
+    private javax.swing.JTextField emaill;
     private javax.swing.JPanel home_load;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

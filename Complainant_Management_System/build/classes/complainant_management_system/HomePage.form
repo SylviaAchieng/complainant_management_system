@@ -72,7 +72,7 @@
                           <EmptySpace pref="406" max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="email" min="-2" pref="133" max="-2" attributes="0"/>
+                          <Component id="emaill" min="-2" pref="133" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -93,7 +93,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="user" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="email" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="emaill" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="user1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -124,7 +124,7 @@
             <Property name="text" type="java.lang.String" value="Email"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="email">
+        <Component class="javax.swing.JTextField" name="emaill">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
