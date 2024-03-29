@@ -5,6 +5,8 @@
 package complainant_management_system;
 
 import complainant_management_system.db;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,41 +29,45 @@ public class FollowUp extends javax.swing.JPanel {
         tbLoad();
     }
     
-      public void tbLoad(){
+public void tbLoad(){
+    try {
+        // Get the logged-in email from the session manager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
         
+        DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
         
-        try {
+        dt.setRowCount(0);
+        
+        // Preparing a SQL statement with placeholders to prevent SQL injection
+        String query = "SELECT * FROM register_complaint WHERE status = ?";
+        PreparedStatement ps = db.mycon().prepareStatement(query);
+        ps.setString(1, loggedInEmail);
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            Vector<Object> v = new Vector<>();
             
-            DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
+            v.add(rs.getString(3));
+            v.add(rs.getString(4));
+            v.add(rs.getString(2));
+            v.add(rs.getString(8));
+            v.add(rs.getString(9));
             
-            dt.setRowCount(0);
-            
-            Statement s = db.mycon().createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM register_complaint");
-            
-            while(rs.next()){
-                Vector v = new Vector();
-                
-                v.add(rs.getString(3));
-                v.add(rs.getString(4));
-                v.add(rs.getString(2));
-                v.add(rs.getString(8));
-                v.add(rs.getString(9));
-               
-                
-                dt.addRow(v);
-            }   
-        }catch(SQLException e){
-            System.out.println(e);
-        }
+            dt.addRow(v);
+        }   
+    } catch(SQLException e){
+        e.printStackTrace(); // Printing the stack trace for debugging
     }
+}
+
         
     
     public void count(){
         //count number of complaints registered
         try {
+    String loggedInEmail = SessionManager.getLoggedInEmail();       
     Statement s = db.mycon().createStatement();
-    ResultSet rs = s.executeQuery("SELECT COUNT(Id) AS count FROM register_complaint");
+    ResultSet rs = s.executeQuery("SELECT COUNT(Id) AS count FROM register_complaint WHERE status = '"+loggedInEmail+"'");
     if (rs.next()) {
         int count = rs.getInt("count");
         String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
@@ -70,10 +76,40 @@ public class FollowUp extends javax.swing.JPanel {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, e);
 }     
-    // count complaints in progress    
+   // count complaints in progress    
+try {
+    String loggedInEmail = SessionManager.getLoggedInEmail(); 
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%progress%' AND status = '" + loggedInEmail + "'");
+    if (rs.next()) {
+        int count = rs.getInt("count");
+        String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+        msd.setText(formattedCount);
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, e);
+}
+ //count pending complaints
+       try {
+    String loggedInEmail = SessionManager.getLoggedInEmail(); 
+    Statement s = db.mycon().createStatement();
+    ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%pending%' AND status = '" + loggedInEmail + "'");
+    if (rs.next()) {
+        int count = rs.getInt("count");
+        String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
+        msd.setText(formattedCount);
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, e);
+
+      
+    }
+       
+       // count solved complaints
     try {
+        String loggedInEmail = SessionManager.getLoggedInEmail(); 
         Statement s = db.mycon().createStatement();
-        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%progress%'");
+        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%solved%' AND status = '" + loggedInEmail + "'");
         if (rs.next()) {
             int count = rs.getInt("count");
             String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
@@ -81,33 +117,9 @@ public class FollowUp extends javax.swing.JPanel {
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, e);
-    }
-    //count pending complaints
-       try {
-        Statement s = db.mycon().createStatement();
-        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%Pending%'");
-        if (rs.next()) {
-            int count = rs.getInt("count");
-            String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
-            msr.setText(formattedCount);
-        }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, e);
-    }
-       
-       // count solved complaints
-       try {
-        Statement s = db.mycon().createStatement();
-        ResultSet rs = s.executeQuery("SELECT COUNT(statuss) AS count FROM register_complaint WHERE statuss LIKE '%Solved%'");
-        if (rs.next()) {
-            int count = rs.getInt("count");
-            String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
-            mds.setText(formattedCount);
-        }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, e);
-    }
+
        tbLoad();
+    }
 
         
  }
@@ -397,6 +409,7 @@ public class FollowUp extends javax.swing.JPanel {
         // TODO add your handling code here:
         String cat = comboSearch.getSelectedItem().toString();
          try{
+           
              DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
              dt.setRowCount(0);
              Statement s = db.mycon().createStatement();
@@ -416,10 +429,8 @@ public class FollowUp extends javax.swing.JPanel {
                  
              }
          }catch(SQLException e){
-             tbLoad();
-             
+         tbLoad();
          }
-
     }//GEN-LAST:event_fSearchKeyReleased
 
     private void comboSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSearchActionPerformed
@@ -427,12 +438,13 @@ public class FollowUp extends javax.swing.JPanel {
                 // TODO add your handling code here:
         String cat = comboSearch.getSelectedItem().toString();
          try{
+             String loggedInEmail = SessionManager.getLoggedInEmail();
              DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
              dt.setRowCount(0);
              Statement s = db.mycon().createStatement();
             
              
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE statuss LIKE '%"+cat+"%' ");
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%'AND status = '" + loggedInEmail + "' ");
         while(rs.next()){
                  Vector v = new Vector();
                  
@@ -447,8 +459,8 @@ public class FollowUp extends javax.swing.JPanel {
              }
          }catch(SQLException e){
              tbLoad();
-             
          }
+         
     }//GEN-LAST:event_comboSearchActionPerformed
 
     private void fSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fSearchActionPerformed

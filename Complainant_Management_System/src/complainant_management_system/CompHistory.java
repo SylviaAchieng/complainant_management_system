@@ -4,6 +4,7 @@
  */
 package complainant_management_system;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,13 +26,18 @@ public class CompHistory extends javax.swing.JPanel {
     }
         public void tbload(){
         try{
-              
-            DefaultTableModel dt = (DefaultTableModel) histTable.getModel();
-            
-            dt.setRowCount(0);
-            
-            Statement s = db.mycon().createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM register_complaint");
+             String loggedInEmail = SessionManager.getLoggedInEmail();
+        
+        DefaultTableModel dt = (DefaultTableModel) histTable.getModel();
+        
+        dt.setRowCount(0);
+        
+        // Preparing a SQL statement with placeholders to prevent SQL injection
+        String query = "SELECT * FROM register_complaint WHERE status = ?";
+        PreparedStatement ps = db.mycon().prepareStatement(query);
+        ps.setString(1, loggedInEmail);
+        ResultSet rs = ps.executeQuery();
+             
             
             while(rs.next()){
                 Vector v = new Vector();
