@@ -68,8 +68,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="user1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="user" min="-2" pref="147" max="-2" attributes="0"/>
-                          <EmptySpace pref="406" max="32767" attributes="0"/>
+                          <Component id="user" min="-2" pref="194" max="-2" attributes="0"/>
+                          <EmptySpace pref="359" max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="emaill" min="-2" pref="133" max="-2" attributes="0"/>

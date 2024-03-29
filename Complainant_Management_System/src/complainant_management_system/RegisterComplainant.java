@@ -7,6 +7,8 @@ package complainant_management_system;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,7 +32,51 @@ public class RegisterComplainant extends javax.swing.JPanel {
     public RegisterComplainant() {
         initComponents();
         data_load();
+        displayUserData();
+        
     }
+    
+    public void displayUserData() {
+    try {
+        // Establishing a connection
+        Connection connection = db.mycon();
+        
+        // Get the logged-in email from the session manager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
+        
+        // Preparing a SQL statement with placeholders to prevent SQL injection
+        String query = "SELECT * FROM user WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, loggedInEmail);
+        
+       
+        ResultSet rs = statement.executeQuery();
+        
+      
+        if (rs.next()) {
+            // Retrieving data from the result set
+            String depart = rs.getString("department");
+            String ema = rs.getString("email");
+            
+           
+            rDepat.setText(depart);
+            rNo.setText(ema);
+        } else {
+            // If the result set is empty, display a message
+            JOptionPane.showMessageDialog(null, "No data found for the logged-in user.");
+        }
+        
+      
+        rs.close();
+        statement.close();
+        connection.close();
+    } catch (Exception e) {
+        // Handling SQL exceptions
+        JOptionPane.showMessageDialog(null, "An error occurred while retrieving data from the database.");
+        e.printStackTrace();
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,24 +106,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
         }catch(SQLException e){
             System.out.println(e);
         }
-        try{
-            Statement s = db.mycon().createStatement();
-            
-            ResultSet rs = s.executeQuery("SELECT * FROM depart");
-            Vector v  = new Vector();
-            
-            while (rs.next()){
-                v.add(rs.getString("department"));
-                
-                DefaultComboBoxModel com  = new DefaultComboBoxModel(v);
-                comboDepat.setModel(com);   
-            }
-            
-            
-            
-        }catch(SQLException e){
-            System.out.println(e);
-        }
+      
         
      }
      
@@ -92,10 +121,8 @@ public class RegisterComplainant extends javax.swing.JPanel {
         comboCategory = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        comboDepat = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jdate = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -111,6 +138,8 @@ public class RegisterComplainant extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         submit = new javax.swing.JButton();
         title_c = new javax.swing.JTextField();
+        rNo = new javax.swing.JTextField();
+        rDepat = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -153,15 +182,11 @@ public class RegisterComplainant extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         jLabel3.setText("Depatment");
 
-        comboDepat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         jLabel4.setText("Complainant Title");
 
         jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
-        jLabel5.setText("Status");
-
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Serious", "Not Serious" }));
+        jLabel5.setText("RegNo");
 
         jLabel6.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         jLabel6.setText("Occurance Date");
@@ -306,9 +331,9 @@ public class RegisterComplainant extends javax.swing.JPanel {
                                     .addComponent(jLabel5))))
                         .addGap(36, 36, 36)
                         .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboDepat, 0, 255, Short.MAX_VALUE)
-                            .addComponent(comboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32))
+                            .addComponent(rNo)
+                            .addComponent(rDepat, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                        .addGap(60, 60, 60))
                     .addGroup(panel5Layout.createSequentialGroup()
                         .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -327,13 +352,13 @@ public class RegisterComplainant extends javax.swing.JPanel {
                     .addComponent(comboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(comboDepat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rDepat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel5Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
+                            .addComponent(jLabel5)
+                            .addComponent(rNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panel5Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -375,9 +400,9 @@ public class RegisterComplainant extends javax.swing.JPanel {
     // Submit complaint
     //category depatment title  status date  word_details statuss details
     String category = comboCategory.getSelectedItem().toString();
-    String department = comboDepat.getSelectedItem().toString();
+    String department = rDepat.getText();
     String title = title_c.getText();
-    String status = comboStatus.getSelectedItem().toString();
+    String status = rNo.getText();
     String date = jdate.getText();
     String wordDetails = textWords.getText();
     String statusDetails = "Not Yet Checked";
@@ -475,8 +500,6 @@ private String getFileExtension(File file) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboCategory;
-    private javax.swing.JComboBox<String> comboDepat;
-    private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -496,6 +519,8 @@ private String getFileExtension(File file) {
     private javax.swing.JTextField jdate;
     private javax.swing.JLabel label3;
     private javax.swing.JPanel panel5;
+    private javax.swing.JTextField rDepat;
+    private javax.swing.JTextField rNo;
     private javax.swing.JButton submit;
     private javax.swing.JTextArea textWords;
     private javax.swing.JTextField title_c;

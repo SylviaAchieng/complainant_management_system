@@ -3,14 +3,9 @@ package complainant_management_system;
 
     
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
-
-
-
- 
 
 
 public class HomePage extends javax.swing.JFrame {
@@ -20,44 +15,54 @@ public class HomePage extends javax.swing.JFrame {
 
     public HomePage() {
         initComponents();
-        change();
+        displayUserData();
         
         this.setExtendedState(HomePage.MAXIMIZED_BOTH);
     }
-
-
-public void change() {
+    
+public void displayUserData() {
     try {
-        // Get the logged-in email from the SessionManager
-        String loggedInEmail = SessionManager.getLoggedInEmail();
-        
-        // Assuming db.mycon() returns a Connection object
+        // Establishing a connection
         Connection connection = db.mycon();
         
-        // Creating a statement
-        Statement s = connection.createStatement();
+        // Get the logged-in email from the session manager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
         
-        // Executing the query to select data for the logged-in email
-        ResultSet rs = s.executeQuery("SELECT * FROM user WHERE email = '" + loggedInEmail + "'");
+        // Preparing a SQL statement with placeholders to prevent SQL injection
+        String query = "SELECT * FROM user WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, loggedInEmail);
         
-        // Assuming emaill is a JTextField where you want to display the email
+       
+        ResultSet rs = statement.executeQuery();
+        
+      
         if (rs.next()) {
-            // Retrieve the email from the ResultSet
-            String email = rs.getString("email");
-            // Set the retrieved email to the JTextField
-            emaill.setText(email);
+            // Retrieving data from the result set
+            String u = rs.getString("username");
+            String ema = rs.getString("email");
+            
+           
+            user.setText(u);
+            emaill.setText(ema);
+        } else {
+            // If the result set is empty, display a message
+            JOptionPane.showMessageDialog(null, "No data found for the logged-in user.");
         }
         
-        // Close ResultSet, Statement, and Connection
+      
         rs.close();
-        s.close();
+        statement.close();
         connection.close();
-        
     } catch (Exception e) {
-        // Handle exceptions
-        JOptionPane.showMessageDialog(null, e);
+        // Handling SQL exceptions
+        JOptionPane.showMessageDialog(null, "An error occurred while retrieving data from the database.");
+        e.printStackTrace();
     }
 }
+
+
+
 
 
     
@@ -111,8 +116,8 @@ public void change() {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(user1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
+                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(emaill, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
