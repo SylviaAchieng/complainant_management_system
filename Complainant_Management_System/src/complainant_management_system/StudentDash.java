@@ -4,6 +4,8 @@
  */
 package complainant_management_system;
 
+import complainant_management_system.SessionManager;
+import complainant_management_system.db;
 import java.awt.HeadlessException;
 import java.beans.Statement;
 import java.sql.ResultSet;
@@ -28,20 +30,18 @@ public class StudentDash extends javax.swing.JPanel {
         
         
     }
-
-    // Other methods and variables here...
-
-
 public void displayUserData() {
     try {
         // Establishing a connection
         Connection connection = db.mycon();
         
+        // Get the logged-in email from the session manager
+        String loggedInEmail = SessionManager.getLoggedInEmail();
+        
         // Preparing a SQL statement with placeholders to prevent SQL injection
-        String query = "SELECT * FROM user";// WHERE email = ? AND password = ?";
+        String query = "SELECT * FROM user WHERE email = ?";
         PreparedStatement statement = connection.prepareStatement(query);
-        //statement.setString(1, email);
-       // statement.setString(2, password);
+        statement.setString(1, loggedInEmail);
         
         // Executing the query
         ResultSet rs = statement.executeQuery();
@@ -79,6 +79,8 @@ public void displayUserData() {
         JOptionPane.showMessageDialog(null, "An error occurred while retrieving data from the database.");
         e.printStackTrace();
     }
+
+
 }
 
     /**
