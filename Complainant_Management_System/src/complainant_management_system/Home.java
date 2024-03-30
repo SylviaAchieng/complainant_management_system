@@ -153,10 +153,8 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         adminLogin newAdmin = new adminLogin();
         newAdmin.setVisible(true);
-        newAdmin.pack();
         newAdmin.setLocationRelativeTo(null);
-        this.dispose();
-        //this.setVisible(false);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
