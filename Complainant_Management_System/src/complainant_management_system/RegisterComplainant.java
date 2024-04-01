@@ -4,6 +4,7 @@
  */
 package complainant_management_system;
 
+import complainant_management_system.db;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -131,7 +132,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        file = new javax.swing.JButton();
         label3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -228,10 +229,10 @@ public class RegisterComplainant extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton1.setText("Choose File");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        file.setText("Choose File");
+        file.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                fileActionPerformed(evt);
             }
         });
 
@@ -243,7 +244,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(file)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -253,7 +254,7 @@ public class RegisterComplainant extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(file)
                     .addComponent(label3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -397,8 +398,9 @@ public class RegisterComplainant extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+                                       
     // Submit complaint
-    //category depatment title  status date  word_details statuss details
+    //category department title status date word_details statuss details
     String category = comboCategory.getSelectedItem().toString();
     String department = rDepat.getText();
     String title = title_c.getText();
@@ -407,30 +409,34 @@ public class RegisterComplainant extends javax.swing.JPanel {
     String wordDetails = textWords.getText();
     String statusDetails = "Not Yet Checked";
     String resolutionDetails = "No Resolution Details";
-    
-    
+    String filePath = file.getText();
+   
+    if (!filePath.isEmpty()) {
+        // File is chosen, store details in the database
+        storeDetailsInDatabase(category, department, title, status, date, wordDetails, statusDetails, resolutionDetails, filePath);
+    } else {
+        // File is not chosen, proceed without storing file path
+        storeDetailsInDatabase(category, department, title, status, date, wordDetails, statusDetails, resolutionDetails, null);
+    }
+}
+
+private void storeDetailsInDatabase(String category, String department, String title, String status, String date, String wordDetails, String statusDetails, String resolutionDetails, String filePath) {
     try {
-        // Show file chooser dialog to select a file
-        JFileChooser fileChooser = new JFileChooser();
-        int returnValue = fileChooser.showOpenDialog(null);
-        File selectedFile = null;
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-        }
-        
         // Insert complaint into database
         Statement statement = db.mycon().createStatement();
-        // category depatment title status date word_details statuss details files
-        statement.executeUpdate("INSERT INTO register_complaint(category, depatment, title, status, date, word_details, statuss, details, files) VALUES ('" + category + "','" + department + "','" + title + "','" + status + "','" + date + "','" + wordDetails + "','" + statusDetails + "','" + resolutionDetails + "','" + (selectedFile != null ? selectedFile.getAbsolutePath() : "") + "')");
-        JOptionPane.showMessageDialog(null, "Complaint submitted successfully");
-        
-        // View the uploaded file
-        if (selectedFile != null) {
-            viewFile(selectedFile);
-        }
+        // category department title status date word_details statuss details file
+        statement.executeUpdate("INSERT INTO register_complaint(category, depatment, title, status, date, word_details, statuss, details, files) VALUES ('" + category + "','" + department + "','" + title + "','" + status + "','" + date + "','" + wordDetails + "','" + statusDetails + "','" + resolutionDetails + "','" + filePath + "')");
+        JOptionPane.showMessageDialog(this, "Complaint submitted successfully");
     } catch (SQLException e) {
-        System.out.println(e);
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error storing details in the database");
     }
+
+ 
+      
+                                          
+    
+
 }
 
 private void viewFile(File file) {
@@ -452,7 +458,7 @@ private void viewFile(File file) {
      
     }//GEN-LAST:event_comboCategoryActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileActionPerformed
     // Call getFiles
     JFileChooser fileChooser = new JFileChooser();
     
@@ -495,12 +501,12 @@ private String getFileExtension(File file) {
     }
     return name.substring(lastIndexOfDot + 1);              
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_fileActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboCategory;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton file;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

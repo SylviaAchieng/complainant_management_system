@@ -78,7 +78,7 @@ public class CompHistory extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Category", "Depatment", "Tittle", "Status", "Date", "Description"
+                "Id", "Category", "Depatment", "Tittle", "Email", "Date", "Description"
             }
         ));
         jScrollPane1.setViewportView(histTable);

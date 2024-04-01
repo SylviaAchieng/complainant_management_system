@@ -97,7 +97,7 @@ try {
     if (rs.next()) {
         int count = rs.getInt("count");
         String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
-        msd.setText(formattedCount);
+        msr.setText(formattedCount);
     }
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, e);
@@ -113,7 +113,7 @@ try {
         if (rs.next()) {
             int count = rs.getInt("count");
             String formattedCount = String.format("%03d", count); // Formats the count with leading zeros
-            msd.setText(formattedCount);
+            mds.setText(formattedCount);
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, e);
@@ -407,7 +407,7 @@ try {
 
     private void fSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fSearchKeyReleased
         // TODO add your handling code here:
-        String cat = comboSearch.getSelectedItem().toString();
+        String cat = fSearch.getText();
          try{
            
              DefaultTableModel dt = (DefaultTableModel) fTable.getModel();
@@ -415,7 +415,7 @@ try {
              Statement s = db.mycon().createStatement();
             
              
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%' ");
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%'");
         while(rs.next()){
                  Vector v = new Vector();
                  
@@ -429,8 +429,10 @@ try {
                  
              }
          }catch(SQLException e){
-         tbLoad();
+               tbLoad();
+         
          }
+         
     }//GEN-LAST:event_fSearchKeyReleased
 
     private void comboSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSearchActionPerformed
@@ -444,7 +446,7 @@ try {
              Statement s = db.mycon().createStatement();
             
              
-             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%'AND status = '" + loggedInEmail + "' ");
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%' AND status = '" + loggedInEmail + "' ");
         while(rs.next()){
                  Vector v = new Vector();
                  
