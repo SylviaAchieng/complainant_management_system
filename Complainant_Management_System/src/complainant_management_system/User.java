@@ -1,6 +1,13 @@
 
 package complainant_management_system;
 
+import complainant_management_system.db;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 
 
 public class User extends javax.swing.JPanel {
@@ -10,8 +17,40 @@ public class User extends javax.swing.JPanel {
      */
     public User() {
         initComponents();
+        tbLoad();
        
     }
+    public void tbLoad(){
+        
+        
+        try {
+            
+            DefaultTableModel dt = (DefaultTableModel) uTable.getModel();
+            
+            dt.setRowCount(0);
+            
+            Statement s = db.mycon().createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM user");
+            
+            while(rs.next()){
+                Vector v = new Vector();
+                
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(5));
+                v.add(rs.getString(7));
+                v.add(rs.getString(8));
+                v.add(rs.getString(9));
+               
+                
+               
+                
+                dt.addRow(v);
+            }   
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+      }
 
 
     
@@ -22,9 +61,9 @@ public class User extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        uSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        uTable = new javax.swing.JTable();
 
         jPanel5.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -36,6 +75,12 @@ public class User extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Search");
 
+        uSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                uSearchKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -46,7 +91,7 @@ public class User extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(uSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
         jPanel5Layout.setVerticalGroup(
@@ -56,22 +101,22 @@ public class User extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(uSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        uTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "User Name", "Complaint Category", "Complaint Description", "Complaint Status"
+                "User Name", "Email", "RegNo", "Contact", "Department", "Gender"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(uTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -90,13 +135,42 @@ public class User extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void uSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uSearchKeyReleased
+          String cat = uSearch.getText();
+         try{
+           
+             DefaultTableModel dt = (DefaultTableModel) uTable.getModel();
+             dt.setRowCount(0);
+             Statement s = db.mycon().createStatement();
+            
+             
+             ResultSet rs = s.executeQuery("SELECT * FROM register_complaint WHERE title LIKE '%"+cat+"%'");
+        while(rs.next()){
+                 Vector v = new Vector();
+                 
+                 v.add(rs.getString(3));
+                 v.add(rs.getString(4));
+                 v.add(rs.getString(2));
+                 v.add(rs.getString(8));
+                 v.add(rs.getString(9));
+                 
+                 dt.addRow(v);
+                 
+             }
+         }catch(SQLException e){
+               tbLoad();
+         
+         }
+                    
+    }//GEN-LAST:event_uSearchKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField uSearch;
+    private javax.swing.JTable uTable;
     // End of variables declaration//GEN-END:variables
 }
